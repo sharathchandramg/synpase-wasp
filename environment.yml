@@ -1,0 +1,32 @@
+name: wasp_conda_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - ca-certificates=2021.10.8=h033912b_0
+  - certifi=2021.10.8=py38h50d1736_1
+  - dynaconf=3.1.7=pyhd8ed1ab_0
+  - krb5=1.17.2=h60d9502_0
+  - libcxx=12.0.0=h2f01273_0
+  - libedit=3.1.20210910=hca72f7f_0
+  - libffi=3.3=hb1e8313_2
+  - libpq=12.3=h7049927_3
+  - ncurses=6.3=hca72f7f_2
+  - openssl=1.1.1l=h0d85af4_0
+  - pendulum=2.1.2=pyhd8ed1ab_1
+  - pip=21.2.4=py38hecd8cb5_0
+  - psycopg2=2.8.6=py38hbcfaee0_1
+  - psycopg2-binary=2.8.6=pyhd8ed1ab_3
+  - python=3.8.12=h88f2d9e_0
+  - python-dateutil=2.8.2=pyhd8ed1ab_0
+  - python_abi=3.8=2_cp38
+  - pytzdata=2020.1=pyh9f0ad1d_0
+  - readline=8.1=h9ed2024_0
+  - setuptools=58.0.4=py38hecd8cb5_0
+  - six=1.16.0=pyh6c4a22f_0
+  - sqlite=3.37.0=h707629a_0
+  - tk=8.6.11=h7bc2e8c_0
+  - wheel=0.37.0=pyhd3eb1b0_1
+  - xz=5.2.5=h1de35cc_0
+  - zlib=1.2.11=h4dc903c_4
+prefix: /Users/sharath/opt/anaconda3/envs/wasp_conda_env

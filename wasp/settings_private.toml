@@ -1,0 +1,4 @@
+# Private settings (e.g. constants that cannot be overridden by user-defined
+# settings.
+[default]
+MAX_DATE = 9999-12-31

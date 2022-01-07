@@ -1,0 +1,74 @@
+[default]
+
+[default.swarm.honeycomb]
+# Honeycomb database connection
+host = "localhost"
+port = 5432
+database = "citus"
+user = "postgres"
+password = "password"
+sslmode = "prefer"
+client_encoding = "UTF8"
+
+[default.swarm.tower]
+# Tower of Truth
+# URL prefix for Tower of Truth files. URL scheme must be supported by fsspec.
+url = "/Users/sharath/workspace/cuezen/wasp/data/"
+
+[default.swarm.prefect]
+# Prefect project name for the flows.
+project = "Swarm"
+
+[default.swarm.tasks]
+# Whether to log stdout of each task to the Prefect logger.
+log_stdout = true
+
+[default.swarm.flows]
+# Prefect flows.
+
+# Start date for cron schedules; if not specified, datetime.datetime.now() is used.
+# start_date = 2021-01-01
+
+# Time zone for cron schedules, e.g. 'Asia/Singapore', 'UTC+8'
+# See https://dateutil.readthedocs.io/en/stable/tz.html#dateutil.tz.gettz
+timezone = "UTC"
+
+[default.swarm.bots]
+# Configuration for bots.
+
+# Default date offset for fetching the data from Tower of Truth.
+# E.g. 0 to fetch data up to today
+# E.g. -1 to fetch data up to 1 day before (yesterday)
+date_offset = -1
+
+# One sub-section per bot, corresponding to bot ID.
+#
+# Common settings:
+# - enabled: Whether to register the bot's fields and markers in Honeycomb
+#   (default: False).
+# - available: Whether to compute the bot's fields and markers (default: True).
+#
+# A bot can have 3 states:
+# - Not enabled: Bot will not be executed; no data will be loaded into Honeycomb.
+# - Enabled but not available: Fields and markers will be registered in Honeycomb,
+#   but they will appear as "not available" in CueBox app and their values will not
+#   be computed.
+# - Enabled and available:  Fields and markers will be registered in Honeycomb,
+#   appearing as "available" in CueBox app with values computed.
+#
+# Other settings are bot-specific. See the bot's default_config attribute. Values should
+# match the data types of default_config, and can be TOML primitive values, e.g.
+# integer, string, or complex values, e.g. table (python dict), array (python list).
+
+# Example (steps bot):
+# [default.swarm.bots.steps]
+# enabled = true
+# available = true
+# field_days = [7, 14]
+# marker_days = 14
+# marker_bins = [1000, 3000, 5000, 7000, 10000]
+# expiry_days = 90
+
+[default.swarm.bots.steps]
+enabled = true
+available = true
