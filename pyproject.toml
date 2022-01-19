@@ -1,3 +1,21 @@
+# [build-system]
+# requires = ["setuptools", "wheel"]
+# build-backend = "setuptools.build_meta"
+
+[tool.poetry]
+name = "wasp"
+version = "0.1.0"
+description = "Spark test"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+prefect = "^0.15.12"
+pendulum = "^2.1.2"
+dynaconf = "^3.1.7"
+
+[tool.poetry.dev-dependencies]
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

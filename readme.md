@@ -2,33 +2,46 @@
 
 This is the minimum repository for running spark jobs on azure synapse.
 
-## Steps
 
-Create conda environment from environment.yml
+## Build
 
-```
-conda env create --file environment.yml
-```
+Build Python package.
 
-Create a conda pack
-
-```
-conda pack -f -o dist/wasp_conda_env.tar.gz --ignore-editable-packages
+```bash
+poetry build --format wheel
 ```
 
-Run Locally
+Build and push Docker image.
 
+```bash
+az acr login --name cueboxdev
+docker build -t cueboxdev.azurecr.io/wasp:latest .
+docker push cueboxdev.azurecr.io/wasp:latest
 ```
-spark-submit --master "local[3]" --archives dist/wasp_conda_env.tar.gz  wasp/jobs/participant.py
-```
 
-Run on synapse
 
-1. Upload the package `wasp_conda_env.tar.gz` to ABS
-2. Upload the spark job `wasp/jobs/pariticipant.py` to ABS
-3. Create a spark job defintion under synapse with main file as `pariticipant.py`
-4. Run the submit via CLI as
+## Run via Kubernetes API
 
-```
-az synapse spark job submit --workspace-name <> --spark-pool-name <> --executor-size Small --executors 2 --language PySpark --main-definition-file abfss://<>/participant.py --name <job_name> --archives abfss://<>/wasp_conda_env.tar.gz
+Pre-requisites:
+* `spark` service account with appropriate Kubernetes permissions.
+
+(Master URL will be different when running from Prefect.)
+
+```bash
+spark-submit \
+--master k8s://https://cuebox-dev-cuebox-dev-rg-6aafc6-59873917.hcp.westus2.azmk8s.io:443 \
+--deploy-mode cluster \
+--name wasp \
+--conf spark.executor.instances=3 \
+--conf spark.kubernetes.container.image=cueboxdev.azurecr.io/wasp:latest \
+--conf spark.kubernetes.namespace=cuebox \
+--conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+--conf spark.kubernetes.driver.podTemplateFile=k8s/template.yaml \
+--conf spark.kubernetes.executor.podTemplateFile=k8s/template.yaml \
+--conf spark.hadoop.fs.azure.account.auth.type=OAuth \
+--conf spark.hadoop.fs.azure.account.oauth.provider.type=org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider \
+--conf "spark.hadoop.fs.azure.account.oauth2.client.endpoint=https://login.microsoftonline.com/<tenant>/oauth2/token" \
+--conf spark.hadoop.fs.azure.account.oauth2.client.id=<client> \
+--conf "spark.hadoop.fs.azure.account.oauth2.client.secret=<secret>" \
+local:///opt/application/jobs/participant.py
 ```

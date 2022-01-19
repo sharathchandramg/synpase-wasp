@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: swarm
+      env:
+        - name: ROOT_PATH_FOR_DYNACONF
+          value: /cuebox/swarm/etc
+      envFrom:
+        - secretRef:
+            name: swarm
+            optional: false
+      volumeMounts:
+        - name: config
+          mountPath: /cuebox/swarm/etc
+          readOnly: true
+  volumes:
+    - name: config
+      configMap:
+        name: swarm
+  tolerations:
+    - key: role
+      value: compute
+  imagePullSecrets:
+    - name: cuebox-registry

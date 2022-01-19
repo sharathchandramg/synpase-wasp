@@ -13,7 +13,7 @@ def main(args):
     print(f"\n".join(sys.path))
     
     participants_df = extract_participants(spark)
-    participants_df.show()
+    participants_df.show(10)
     # upsert_participants.run(data=participants_df, mode="append", password=db_pw)
 
 
